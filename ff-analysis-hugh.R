@@ -79,7 +79,7 @@ cleancoef <- function(myaov){
 # coefficients, since the latter correspond to +1/-1 coding.  Intercept is
 # excluded because it's not an effect
 
-pdf(file = "supervised_halfnormal.pdf", width = 6, height = 6)
+pdf(file = "Figure8.pdf", width = 6, height = 6)
 par(mar=c(4,4,1,1))
 halfnormal(cleancoef(FrFac.myaov.unreplicated)[-1]*2, main = '',
             xlim = c(0,4), alpha = 0.25)
@@ -88,7 +88,7 @@ dev.off()
 ###############################################
 # Figure 9- main effects and 2select 2fis
 myheight = c(0,5.5)
-pdf(file = "supervised_me2fi.pdf", width = 9, height = 4.5)
+pdf(file = "Figure9.pdf", width = 9, height = 4.5)
 par(mfrow=c(1,3))
 plot.design( response ~ n+q+ENE+beta.mu+sigma+model+x.cor, data = results2,
              ylim = myheight, main = "(a)")
@@ -112,7 +112,7 @@ FrFac.myaov <- aov(formula = formula(myaov), data = results2)
 
 ###################
 # Figure 15: comparision of half normal plots for all 4 possible analyses
-pdf(file = "supervised_cheapo_halfnormal.pdf", width = 9, height = 9)
+pdf(file = "Figure15.pdf", width = 9, height = 9)
 par(mfrow=c(2,2))
 halfnormal(cleancoef(myaov)[-1]*2, main='Full Factorial', xlim = c(0,4.1))
 halfnormal(cleancoef(myaov.unreplicated)[-1]*2, 
