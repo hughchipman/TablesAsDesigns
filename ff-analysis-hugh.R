@@ -22,7 +22,8 @@ rm(tmp, replicates)
 #colnames(results)[2:8]  <- LETTERS[1:7]
 
 
-results$response <- with(results, log(model.rsq.test/(1-model.rsq.test)))
+results$response <- with(results, 1 - model.mse.test / meanSStot)
+results$response <- with(results, log(response/(1-response)))
 
 # FF design will be a crossed array of "model" by the other 6 (noise) factors.
 # n=A q=B ENE=C beta.mu=D sigma=E x.cor=F model=G
@@ -113,11 +114,11 @@ FrFac.myaov <- aov(formula = formula(myaov), data = results2)
 # Figure 15: comparision of half normal plots for all 4 possible analyses
 pdf(file = "supervised_cheapo_halfnormal.pdf", width = 9, height = 9)
 par(mfrow=c(2,2))
-halfnormal(cleancoef(myaov)[-1]*2, main='Full Factorial', xlim = c(0,4))
+halfnormal(cleancoef(myaov)[-1]*2, main='Full Factorial', xlim = c(0,4.1))
 halfnormal(cleancoef(myaov.unreplicated)[-1]*2, 
-           main='Full Factorial, unreplicated', xlim = c(0,4))
+           main='Full Factorial, unreplicated', xlim = c(0,4.1))
 halfnormal(cleancoef(FrFac.myaov)[-1]*2, 
-           main = 'Quarter Fraction', xlim = c(0,4), alpha = 0.10)
+           main = 'Quarter Fraction', xlim = c(0,4.1), alpha = 0.10)
 halfnormal(cleancoef(FrFac.myaov.unreplicated)[-1]*2, 
-           main = 'Quarter Fraction, unreplicated', xlim = c(0,4), alpha = 0.10)
+           main = 'Quarter Fraction, unreplicated', xlim = c(0,4.1), alpha = 0.10)
 dev.off()
