@@ -122,3 +122,19 @@ halfnormal(cleancoef(FrFac.myaov)[-1]*2,
 halfnormal(cleancoef(FrFac.myaov.unreplicated)[-1]*2, 
            main = 'Quarter Fraction, unreplicated', xlim = c(0,4.1), alpha = 0.10)
 dev.off()
+
+# How do estimates of the residual standard deviation vary according to replication and fractionation?
+# For the unreplicated fractional factorial we have to assume that some are small, so I delete those.
+reduced.FrFac.myaov.unreplicated <- 
+  aov(response ~ n+q+ENE+beta.mu+sigma+model+x.cor+
+        sigma:model + beta.mu:model + q:x.cor+ENE:model, 
+      data = results2[results2$replicate==1,])
+summary.lm(myaov)$sigma
+summary.lm(myaov.unreplicated)$sigma
+summary.lm(FrFac.myaov)$sigma
+summary.lm(FrFac.myaov.unreplicated)$sigma
+summary.lm(reduced.FrFac.myaov.unreplicated)$sigma
+
+
+
+
