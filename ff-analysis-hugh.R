@@ -71,6 +71,12 @@ cleancoef <- function(myaov){
   names(mycoef) <- cn
   mycoef
 }
+# Fit a reduced version of this model to get an estimate of residual error, 
+# and give SEs for effect estimates.
+reduced.FrFac.myaov.unreplicated <- 
+  aov(response ~ n+q+ENE+beta.mu+sigma+model+x.cor+
+        sigma:model + beta.mu:model + q:x.cor+ENE:model, 
+      data = results2[results2$replicate==1,])
 
 
 ########################################
@@ -83,6 +89,10 @@ pdf(file = "Figure8.pdf", width = 6, height = 6)
 par(mar=c(4,4,1,1))
 halfnormal(cleancoef(FrFac.myaov.unreplicated)[-1]*2, main = '',
             xlim = c(0,4), alpha = 0.25)
+# Vertical line drawn at 2 standard errors of the effect.  
+# Extra *2 is because regression coefficients are doubled to get effect estimates.
+abline(v = 2*2*summary.lm(reduced.FrFac.myaov.unreplicated)$coefficients[2,2],
+       lty = 2)
 dev.off()
 
 ###############################################
@@ -125,10 +135,6 @@ dev.off()
 
 # How do estimates of the residual standard deviation vary according to replication and fractionation?
 # For the unreplicated fractional factorial we have to assume that some are small, so I delete those.
-reduced.FrFac.myaov.unreplicated <- 
-  aov(response ~ n+q+ENE+beta.mu+sigma+model+x.cor+
-        sigma:model + beta.mu:model + q:x.cor+ENE:model, 
-      data = results2[results2$replicate==1,])
 summary.lm(myaov)$sigma
 summary.lm(myaov.unreplicated)$sigma
 summary.lm(FrFac.myaov)$sigma
