@@ -91,8 +91,7 @@ halfnormal(cleancoef(FrFac.myaov.unreplicated)[-1]*2, main = '',
             xlim = c(0,4), alpha = 0.25)
 # Vertical line drawn at 2 standard errors of the effect.  
 # Extra *2 is because regression coefficients are doubled to get effect estimates.
-abline(v = 2*2*summary.lm(reduced.FrFac.myaov.unreplicated)$coefficients[2,2],
-       lty = 2)
+#abline(v = 2*2*summary.lm(reduced.FrFac.myaov.unreplicated)$coefficients[2,2],       lty = 2)
 dev.off()
 
 ###############################################
