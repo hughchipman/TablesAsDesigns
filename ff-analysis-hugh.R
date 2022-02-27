@@ -64,11 +64,18 @@ FrFac.myaov.unreplicated <- aov(response ~ (n+q+ENE+beta.mu+sigma+model+x.cor)^4
                                 data = results2[results2$replicate==1,])
 summary(FrFac.myaov.unreplicated) # Not reported in paper
 
-cleancoef <- function(myaov){
-  # Helper function to clean up the "1"s in coefficient names.
+cleancoef <- function(myaov, top = -1){
+  # Helper function to clean up the "1"s in coefficient names, 
+  # and optionally drop names of small estimates.
+  # For use in the half normal plot
   mycoef <- coef(myaov)
   cn <- str_remove_all(names(mycoef),"1")
   names(mycoef) <- cn
+  if (top>0) {
+    keep <- abs(mycoef[-1]) >= -sort(-abs(mycoef[-1]))[top]
+    keep <- c(TRUE,keep)
+    names(mycoef)[!keep] <- ''
+  }
   mycoef
 }
 # Fit a reduced version of this model to get an estimate of residual error, 
@@ -123,14 +130,41 @@ FrFac.myaov <- aov(formula = formula(myaov), data = results2)
 # Figure 15: comparision of half normal plots for all 4 possible analyses
 pdf(file = "Figure15.pdf", width = 9, height = 9)
 par(mfrow=c(2,2))
-halfnormal(cleancoef(myaov)[-1]*2, main='Full Factorial', xlim = c(0,4.1))
-halfnormal(cleancoef(myaov.unreplicated)[-1]*2, 
-           main='Full Factorial, unreplicated', xlim = c(0,4.1))
-halfnormal(cleancoef(FrFac.myaov)[-1]*2, 
-           main = 'Quarter Fraction', xlim = c(0,4.1), alpha = 0.10)
-halfnormal(cleancoef(FrFac.myaov.unreplicated)[-1]*2, 
-           main = 'Quarter Fraction, unreplicated', xlim = c(0,4.1), alpha = 0.10)
+halfnormal(cleancoef(myaov, 9)[-1]*2, main='Full Factorial', xlim = c(0,4.1), cex.text=.75)
+halfnormal(cleancoef(myaov.unreplicated, 9)[-1]*2, 
+           main='Full Factorial, unreplicated', xlim = c(0,4.1), cex.text = .75)
+halfnormal(cleancoef(FrFac.myaov, 6)[-1]*2, 
+           main = 'Quarter Fraction', xlim = c(0,4.1), alpha = 0.10, cex.text = .75)
+halfnormal(cleancoef(FrFac.myaov.unreplicated, 6)[-1]*2, 
+           main = 'Quarter Fraction, unreplicated', xlim = c(0,4.1), alpha = 0.10, cex.text = .75)
 dev.off()
+
+
+# not included in appendix: ANOVA tables of all 4 4th order models
+summary(FrFac.myaov.unreplicated)  # Unreplicated quarter fraction, as in Sec 5
+summary(FrFac.myaov)               # 2 replicates of quarter fraction
+summary(myaov.unreplicated)        # unreplicated full factorial
+summary(myaov)                     # 2 replicates of full factorial
+
+# Appendix: ANOVA tables of 2nd order models.
+model1 <- aov( response ~ (n+q+ENE+beta.mu+sigma+model+x.cor)^2, 
+               data = results)
+model2 <- aov( response ~ (n+q+ENE+beta.mu+sigma+model+x.cor)^2, 
+               data = results, subset = results$replicate==1)
+model3 <- aov(response ~ (n+q+ENE+beta.mu+sigma+model+x.cor)^2, 
+              data = results2)
+model4 <- aov(response ~ (n+q+ENE+beta.mu+sigma+model+x.cor)^2, 
+              data = results2, subset = results2$replicate==1)
+
+summary(model1)
+summary(model2)
+summary(model3)
+summary(model4)
+
+# (half) effect estimates for replicated designs, 2nd order models
+summary.lm(model1)
+summary.lm(model3)
+
 
 # How do estimates of the residual standard deviation vary according to replication and fractionation?
 # For the unreplicated fractional factorial we have to assume that some are small, so I delete those.
