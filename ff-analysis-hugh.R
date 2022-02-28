@@ -15,6 +15,10 @@ results <- tmp
 for(i in 2:7) results[,i] <- as.factor(results[,i])
 rm(tmp, replicates)
 
+# Save data to csv file for alternate access
+write.csv(results, file = "replicate_12_combined_results.csv", quote = FALSE, 
+          row.names = FALSE)
+
 # Note that if you would like to re-run the experiment, use run_cluster.R
 # It takes something like 20 minutes per replicate.
 
@@ -128,7 +132,7 @@ FrFac.myaov <- aov(formula = formula(myaov), data = results2)
 
 ###################
 # Figure 15: comparision of half normal plots for all 4 possible analyses
-pdf(file = "Figure15.pdf", width = 9, height = 9)
+pdf(file = "SuppFigure2.pdf", width = 9, height = 9)
 par(mfrow=c(2,2))
 halfnormal(cleancoef(myaov, 9)[-1]*2, main='Full Factorial', xlim = c(0,4.1), cex.text=.75)
 halfnormal(cleancoef(myaov.unreplicated, 9)[-1]*2, 
