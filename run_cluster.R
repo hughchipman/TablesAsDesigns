@@ -1,6 +1,5 @@
 # This code carries out the simulation of the "statistical learning experiment"
 # in the paper "Let's practice what we preach: Planning and interpreting simulation studies with design and analysis of experiments", 
-# written by Hugh Chipman and Derek Bingham.
 
 # First, load the function that will execute 1 replicate of the experiment.  
 # This corresponds to 2^7 = 128 runs.
