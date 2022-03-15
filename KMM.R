@@ -70,16 +70,19 @@ pdf('Figure3.pdf', width = 9, height = 4.5)
 par(mfrow=c(1,3))
 myylim = c(0.033,0.065)*scalefactor 
 plot.design(formula(full1),data=mydata2,lwd=2, 
-            ylim = myylim, main = "(a)")
+            ylim = myylim, main = "(a)", 
+            ylab = "Type I error")
 text(2.1,3.1,labels="tail",xpd=NA)
 abline(h=target, col='blue')
 # method by tail:
 with(mydata2, interaction.plot(method, tail,y,legend=TRUE,lwd=2, 
-                               ylim = myylim, main="(b)", fixed = TRUE))
+                               ylim = myylim, main="(b)", fixed = TRUE,
+                               ylab = "Type I error"))
 abline(h=target,col='blue')
 # p0 by tail:
 with(mydata2,interaction.plot(p0, tail,y,legend=TRUE,lwd=2, 
-                              ylim = myylim, main="(c)", fixed = TRUE))
+                              ylim = myylim, main="(c)", fixed = TRUE,
+                              ylab = "Type I error"))
 abline(h=target,col='blue')
 dev.off()
 
@@ -119,14 +122,16 @@ with(mydata2,
      interaction.plot(
        x.factor = p0, trace.factor = control, response = y,
        lty = c(1,1,1,2,2,2,3,3,3), col = c(1:3,1:3,1:3)+1,
-       lwd = 3, fixed = TRUE, ylim = myylim, trace.label = "Method/Tail", main = "(a)"
+       lwd = 3, fixed = TRUE, ylim = myylim, trace.label = "Method/Tail", 
+       main = "(a)", ylab = "Type I error"
      ))
 abline(h=target,col='blue')
 with(mydata2,
      interaction.plot(
        x.factor = sigma, trace.factor = control, response = y,
        lty = c(1,1,1,2,2,2,3,3,3), col = c(1:3,1:3,1:3)+1,
-       lwd = 3, fixed = TRUE, ylim = myylim, trace.label = "Method/Tail", main = "(b)"
+       lwd = 3, fixed = TRUE, ylim = myylim, trace.label = "Method/Tail", 
+       main = "(b)", ylab = "Type I error"
      ))
 abline(h=target,col='blue')
 dev.off()
@@ -158,7 +163,8 @@ for (i in 1:3){
        interaction.plot(
          x.factor = p0, trace.factor = control, response = y,
          lty = c(1,1,1,2,2,2,3,3,3), col = c(1:3,1:3,1:3)+1,
-         lwd = 3, fixed = TRUE, ylim = myylim, trace.label = "Method/Tail"
+         lwd = 3, fixed = TRUE, ylim = myylim, trace.label = "Method/Tail",
+         ylab = "Type I error"
        ))
   title(paste('sigma =',i))
   abline(h=target,col='blue')
