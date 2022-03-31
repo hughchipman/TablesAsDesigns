@@ -91,14 +91,14 @@ reduced.FrFac.myaov.unreplicated <-
 
 
 ########################################
-# Figure 8 - Half normal plot for quarter fraction only
+# Figure 7 - Half normal plot for quarter fraction only
 # Effect estimates are twice the estimated regression
 # coefficients, since the latter correspond to +1/-1 coding.  Intercept is
 # excluded because it's not an effect
 
-pdf(file = "Figure8.pdf", width = 6, height = 6)
+pdf(file = "Figure7.pdf", width = 6, height = 6)
 par(mar=c(4,4,1,1))
-halfnormal(cleancoef(FrFac.myaov.unreplicated)[-1]*2, main = '',
+halfnormal(cleancoef(FrFac.myaov.unreplicated, top = 10)[-1]*2, main = '',
             xlim = c(0,4), alpha = 0.25)
 # Vertical line drawn at 2 standard errors of the effect.  
 # Extra *2 is because regression coefficients are doubled to get effect estimates.
@@ -106,9 +106,9 @@ halfnormal(cleancoef(FrFac.myaov.unreplicated)[-1]*2, main = '',
 dev.off()
 
 ###############################################
-# Figure 9- main effects and 2select 2fis
+# Figure 8- main effects and 2select 2fis
 myheight = c(0,5.5)
-pdf(file = "Figure9.pdf", width = 9, height = 4.5)
+pdf(file = "Figure8.pdf", width = 9, height = 4.5)
 par(mfrow=c(1,3))
 plot.design( response ~ n+q+ENE+beta.mu+sigma+model+x.cor, data = results2,
              ylim = myheight, main = "(a)")
